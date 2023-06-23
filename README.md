@@ -20,19 +20,19 @@ Certifique-se de ter o seguinte software instalado em sua máquina antes de pros
     Java Development Kit (JDK) versão 11 ou superior
     Apache Maven
 
-# Como executar
+# Desenvolvimento
 
 Siga as etapas abaixo para executar o "Pior aplicativo de agenda" em sua máquina:
 
 Clone este repositório para o seu ambiente local.
 ```
-git clone https://github.com/seu-usuario/o-pior-aplicativo-de-agenda.git
+git clone https://github.com/PauloVBettio/ListaDeContatos.git
 ```
 
 Acesse o diretório do projeto.
 
 ```
-cd o-pior-aplicativo-de-agenda
+cd ListaDeContatos
 ```
 
 Compile o projeto usando o Maven.
