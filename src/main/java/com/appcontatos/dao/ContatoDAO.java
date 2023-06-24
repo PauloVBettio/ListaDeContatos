@@ -44,7 +44,7 @@ public class ContatoDAO {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS contatos (" +
                     "id INT PRIMARY KEY AUTO_INCREMENT," +
                     "nome VARCHAR(255) NOT NULL," +
-                    "telefone VARCHAR(11) NOT NULL," +
+                    "telefone VARCHAR(20) NOT NULL," +
                     "email VARCHAR(255) NOT NULL," +
                     "favorite BOOL NOT NULL," +
                     "color VARCHAR(6) NOT NULL" +

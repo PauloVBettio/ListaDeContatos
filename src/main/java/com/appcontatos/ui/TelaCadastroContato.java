@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,12 +25,12 @@ public class TelaCadastroContato extends JFrame {
     private ContatoService contatoService;
     private TelaPrincipal telaPrincipal;
     private Contato contato;
-
     private JTextField txtNome;
     private JFormattedTextField txtTelefone;
     private JTextField txtEmail;
     private JRadioButton isFavoriteRadioButton;
     private JComboBox<ComboColor> cbColor;
+    private MaskFormatter telefoneMaskFormatter;
 
     public TelaCadastroContato(ContatoService contatoService, TelaPrincipal telaPrincipal) {
         this.contatoService = contatoService;
@@ -83,9 +84,9 @@ public class TelaCadastroContato extends JFrame {
 
         txtTelefone = new JFormattedTextField();
         try {
-            MaskFormatter maskFormatter = new MaskFormatter("+## (##) #####-####");
-            maskFormatter.setPlaceholderCharacter('_');
-            maskFormatter.install(txtTelefone);
+            telefoneMaskFormatter = new MaskFormatter("+## (##) #####-####");
+            telefoneMaskFormatter.setPlaceholderCharacter('_');
+            telefoneMaskFormatter.install(txtTelefone);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -141,15 +142,22 @@ public class TelaCadastroContato extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nome = txtNome.getText();
-                String telefone = txtTelefone.getText();
+                String telefone = txtTelefone.getText().replaceAll("[()_+ -]", "");
                 String email = txtEmail.getText();
-                if (!Contato.isValidEmail(email)) {
-                    JOptionPane.showMessageDialog(null, "Email inválido", "Aviso", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
                 boolean favorite = isFavoriteRadioButton.isSelected();
                 Color color = cbColor.getSelectedItem() != null ? ((ComboColor)cbColor.getSelectedItem()).getValue() : Color.black;
+
+                if (!email.isEmpty()) {
+                    if (!Contato.isValidEmail(email)) {
+                        JOptionPane.showMessageDialog(null, "Email inválido", "Aviso", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
+
+                else if (nome.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Insira um nome", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
                 if (contato == null) {
                     // Criar um novo contato
