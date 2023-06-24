@@ -7,6 +7,7 @@ import com.appcontatos.model.Contato;
 import com.appcontatos.service.ContatoService;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,11 +71,11 @@ public class TelaCadastroContato extends JFrame {
         JLabel lblColor = new JLabel("Cor:");
 
         txtNome = new JTextField();
-        txtNome.setColumns(255);
+        limitarTamanhoCampo(txtNome, 255);
         txtTelefone = new JTextField();
-        txtTelefone.setColumns(20);
+        limitarTamanhoCampo(txtTelefone, 20);
         txtEmail = new JTextField();
-        txtEmail.setColumns(255);
+        limitarTamanhoCampo(txtEmail, 255);
         isFavoriteRadioButton = new JRadioButton();
         cbColor = new JComboBox<>();
         cbColor.addItem(new ComboColor(Color.red, "Vermelho"));
@@ -104,6 +105,8 @@ public class TelaCadastroContato extends JFrame {
                     contato.setNome(nome);
                     contato.setTelefone(telefone);
                     contato.setEmail(email);
+                    contato.setFavorite(favorite);
+                    contato.setColor(color);
                     contatoService.atualizarContato(contato);
                 }
 
@@ -130,4 +133,20 @@ public class TelaCadastroContato extends JFrame {
 
         add(panel);
     }
+
+    private static void limitarTamanhoCampo(JTextComponent textField, int maxLength) {
+        PlainDocument doc = (PlainDocument) textField.getDocument();
+        doc.setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+                    throws BadLocationException {
+                int currentLength = fb.getDocument().getLength();
+                int insertionLength = text.length();
+                if (currentLength - length + insertionLength <= maxLength) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
+
 }
