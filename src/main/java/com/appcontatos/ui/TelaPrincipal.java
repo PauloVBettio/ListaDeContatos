@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,29 +113,27 @@ public class TelaPrincipal extends JFrame {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
                 int modelRow = table.convertRowIndexToModel(row);
 
+                if (col == 2) {
+                    value = Contato.getTelefoneFormatted(value.toString());
+                }
+
                 Color color = (Color) table.getModel().getValueAt(modelRow, 4);
-                // original coefficients
                 final double cr = 0.241;
                 final double cg = 0.691;
                 final double cb = 0.068;
-                // another set of coefficients
-                //      final double cr = 0.299;
-                //      final double cg = 0.587;
-                //      final double cb = 0.114;
-
                 double r, g, b;
                 r = color.getRed();
                 g = color.getGreen();
                 b = color.getBlue();
-
-                // compute the weighted distance
                 double brightness = Math.sqrt(cr * r * r + cg * g * g + cb * b * b);
 
                 setBackground(color);
                 setForeground(brightness > 127 ? Color.black : Color.white);
+                setValue(value);
                 return this;
             }
         });
+
         JScrollPane scrollPane = new JScrollPane(tabelaContatos);
 
         panelPrincipal.add(scrollPane, BorderLayout.CENTER);

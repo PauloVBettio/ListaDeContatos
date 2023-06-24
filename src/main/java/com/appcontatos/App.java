@@ -1,7 +1,6 @@
 package com.appcontatos;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.google.protobuf.ServiceException;
 import com.appcontatos.dao.ContatoDAO;
 import com.appcontatos.service.ContatoService;

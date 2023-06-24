@@ -44,7 +44,7 @@ public class ContatoDAO {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS contatos (" +
                     "id INT PRIMARY KEY AUTO_INCREMENT," +
                     "nome VARCHAR(255) NOT NULL," +
-                    "telefone VARCHAR(20) NOT NULL," +
+                    "telefone VARCHAR(11) NOT NULL," +
                     "email VARCHAR(255) NOT NULL," +
                     "favorite BOOL NOT NULL," +
                     "color VARCHAR(6) NOT NULL" +
@@ -57,7 +57,7 @@ public class ContatoDAO {
     }
 
     public Contato getContatoById(int id) {
-        String sql = "SELECT * FROM contatos WHERE id = ? ORDER BY favorite DESC, nome ASC";
+        String sql = "SELECT * FROM contatos WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -129,7 +129,7 @@ public class ContatoDAO {
 
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM contatos");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM contatos ORDER BY favorite DESC, nome ASC");
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");

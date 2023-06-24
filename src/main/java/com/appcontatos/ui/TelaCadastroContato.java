@@ -7,10 +7,16 @@ import com.appcontatos.model.Contato;
 import com.appcontatos.service.ContatoService;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +26,7 @@ public class TelaCadastroContato extends JFrame {
     private Contato contato;
 
     private JTextField txtNome;
-    private JTextField txtTelefone;
+    private JFormattedTextField txtTelefone;
     private JTextField txtEmail;
     private JRadioButton isFavoriteRadioButton;
     private JComboBox<ComboColor> cbColor;
@@ -74,10 +80,19 @@ public class TelaCadastroContato extends JFrame {
 
         txtNome = new JTextField();
         limitarTamanhoCampo(txtNome, 255);
-        txtTelefone = new JTextField();
-        limitarTamanhoCampo(txtTelefone, 20);
+
+        txtTelefone = new JFormattedTextField();
+        try {
+            MaskFormatter maskFormatter = new MaskFormatter("+## (##) #####-####");
+            maskFormatter.setPlaceholderCharacter('_');
+            maskFormatter.install(txtTelefone);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         txtEmail = new JTextField();
         limitarTamanhoCampo(txtEmail, 255);
+
         isFavoriteRadioButton = new JRadioButton();
         cbColor = new JComboBox<>();
         cbColor.addItem(new ComboColor(Color.red, "Vermelho"));
@@ -150,5 +165,4 @@ public class TelaCadastroContato extends JFrame {
             }
         });
     }
-
 }

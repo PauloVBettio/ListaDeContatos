@@ -1,6 +1,9 @@
 package com.appcontatos.model;
 
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.text.MessageFormat;
+import java.text.ParseException;
 
 public class Contato {
     private int id;
@@ -78,5 +81,21 @@ public class Contato {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+
+    public static String getTelefoneFormatted(String telefone) {
+        try {
+            if (!telefone.equals("")) {
+                MaskFormatter mf = new MaskFormatter("+## (##) #####-####");
+                mf.setValueContainsLiteralCharacters(false);
+                return mf.valueToString(telefone);
+            } else {
+                return "";
+            }
+        } catch (ParseException ex) {
+            System.err.println(ex);
+            return null;
+        }
     }
 }
