@@ -79,6 +79,10 @@ public class Contato {
         return String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
     }
 
+    public static String getColorHex(Color color) {
+        return String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+    }
+
     public void setColor(Color color) {
         this.color = color;
     }

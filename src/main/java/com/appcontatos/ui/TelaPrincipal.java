@@ -103,6 +103,7 @@ public class TelaPrincipal extends JFrame {
         modelContatos.addColumn("Telefone");
         modelContatos.addColumn("Email");
         modelContatos.addColumn("Cor");
+        modelContatos.addColumn("Favorito");
 
         tabelaContatos = new JTable(modelContatos);
         tabelaContatos.setDefaultEditor(Object.class, null);
@@ -116,6 +117,9 @@ public class TelaPrincipal extends JFrame {
                 if (col == 2) {
                     value = Contato.getTelefoneFormatted(value.toString());
                 }
+                if (col == 5) {
+                    value = (boolean)table.getModel().getValueAt(modelRow, 5) ? "Sim" : "Não";
+                }
 
                 Color color = (Color) table.getModel().getValueAt(modelRow, 4);
                 final double cr = 0.241;
@@ -126,6 +130,9 @@ public class TelaPrincipal extends JFrame {
                 g = color.getGreen();
                 b = color.getBlue();
                 double brightness = Math.sqrt(cr * r * r + cg * g * g + cb * b * b);
+                if (col == 4) {
+                    value = "#" + Contato.getColorHex(color);
+                }
 
                 setBackground(color);
                 setForeground(brightness > 127 ? Color.black : Color.white);
@@ -190,6 +197,8 @@ public class TelaPrincipal extends JFrame {
                 if (linhaSelecionada != -1) {
                     int idContato = (int) tabelaContatos.getValueAt(linhaSelecionada, 0);
                     abrirTelaAlteracaoContato(idContato);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nenhum contato selecionado. Selecione um contato da lista.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -257,6 +266,7 @@ public class TelaPrincipal extends JFrame {
                     contato.getTelefone(),
                     contato.getEmail(),
                     contato.getColor(),
+                    contato.isFavorite(),
             };
             modelContatos.addRow(rowData);
         }
