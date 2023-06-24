@@ -43,5 +43,5 @@ mvn package
 Execute o aplicativo.
 
 ```
-java -jar target/ListaDeContatos-1.0.jar
+java -jar target/ListaDeContatos-1.1.jar
 ```
