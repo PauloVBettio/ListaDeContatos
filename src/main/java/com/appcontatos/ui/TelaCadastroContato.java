@@ -72,9 +72,9 @@ public class TelaCadastroContato extends JFrame {
         txtNome = new JTextField();
         txtNome.setColumns(255);
         txtTelefone = new JTextField();
-        txtNome.setColumns(20);
+        txtTelefone.setColumns(20);
         txtEmail = new JTextField();
-        txtNome.setColumns(255);
+        txtEmail.setColumns(255);
         isFavoriteRadioButton = new JRadioButton();
         cbColor = new JComboBox<>();
         cbColor.addItem(new ComboColor(Color.red, "Vermelho"));
