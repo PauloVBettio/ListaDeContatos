@@ -104,37 +104,7 @@ public class TelaCadastroContato extends JFrame {
         cbColor.addItem(new ComboColor(Color.magenta, "Magenta"));
 
         JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nome = txtNome.getText();
-                String telefone = txtTelefone.getText();
-                String email = txtEmail.getText();
-                boolean favorite = isFavoriteRadioButton.isSelected();
-                Color color = cbColor.getSelectedItem() != null ? ((ComboColor)cbColor.getSelectedItem()).getValue() : Color.black;
-
-                if (contato == null) {
-                    // Criar um novo contato
-                    Contato novoContato = new Contato(nome, telefone, email, favorite, color);
-                    contatoService.adicionarContato(novoContato);
-                } else {
-                    // Atualizar o contato existente
-                    contato.setNome(nome);
-                    contato.setTelefone(telefone);
-                    contato.setEmail(email);
-                    contato.setFavorite(favorite);
-                    contato.setColor(color);
-                    contatoService.atualizarContato(contato);
-                }
-
-                try {
-                    telaPrincipal.atualizarTabelaContatos();
-                } catch (ServiceException ex) {
-                    Logger.getLogger(TelaCadastroContato.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                dispose();
-            }
-        });
+        setupSave(btnSalvar);
 
         panel.add(lblNome);
         panel.add(txtNome);
@@ -162,6 +132,45 @@ public class TelaCadastroContato extends JFrame {
                 if (currentLength - length + insertionLength <= maxLength) {
                     super.replace(fb, offset, length, text, attrs);
                 }
+            }
+        });
+    }
+
+    private void setupSave(JButton btnSalvar) {
+        btnSalvar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nome = txtNome.getText();
+                String telefone = txtTelefone.getText();
+                String email = txtEmail.getText();
+                if (!Contato.isValidEmail(email)) {
+                    JOptionPane.showMessageDialog(null, "Email inválido", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                boolean favorite = isFavoriteRadioButton.isSelected();
+                Color color = cbColor.getSelectedItem() != null ? ((ComboColor)cbColor.getSelectedItem()).getValue() : Color.black;
+
+                if (contato == null) {
+                    // Criar um novo contato
+                    Contato novoContato = new Contato(nome, telefone, email, favorite, color);
+                    contatoService.adicionarContato(novoContato);
+                } else {
+                    // Atualizar o contato existente
+                    contato.setNome(nome);
+                    contato.setTelefone(telefone);
+                    contato.setEmail(email);
+                    contato.setFavorite(favorite);
+                    contato.setColor(color);
+                    contatoService.atualizarContato(contato);
+                }
+
+                try {
+                    telaPrincipal.atualizarTabelaContatos();
+                } catch (ServiceException ex) {
+                    Logger.getLogger(TelaCadastroContato.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dispose();
             }
         });
     }
