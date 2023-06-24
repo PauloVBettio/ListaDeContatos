@@ -72,7 +72,7 @@ public class TelaPrincipal extends JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtPesquisar.getText().equals(placeholder)) {
                     txtPesquisar.setText("");
-                    txtPesquisar.setForeground(Color.BLACK);
+                    txtPesquisar.setForeground(Color.white);
                 }
             }
 

@@ -57,7 +57,7 @@ public class ContatoDAO {
     }
 
     public Contato getContatoById(int id) {
-        String sql = "SELECT * FROM contatos WHERE id = ?";
+        String sql = "SELECT * FROM contatos WHERE id = ? ORDER BY favorite DESC, nome ASC";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);

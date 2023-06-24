@@ -55,6 +55,8 @@ public class TelaCadastroContato extends JFrame {
         txtNome.setText(contato.getNome());
         txtTelefone.setText(contato.getTelefone());
         txtEmail.setText(contato.getEmail());
+        cbColor.setSelectedItem(contato.getColor());
+        isFavoriteRadioButton.setEnabled(contato.isFavorite());
 
         setVisible(true);
     }
