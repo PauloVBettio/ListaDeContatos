@@ -44,15 +44,52 @@ public class TelaPrincipal extends JFrame {
     private void initComponents() {
         // Painel principal
         JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(32,32,32,32));
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(32, 32, 32, 32));
         panelPrincipal.setLayout(new BorderLayout());
 
         txtPesquisar = new JTextField();
+        txtPesquisar.setMargin(new Insets(8, 8, 8, 8));
+        txtPesquisar.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                filtrarTabela();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
+        // Definir o texto de placeholder
+        String placeholder = "Pesquisar";
+        txtPesquisar.setText(placeholder);
+        txtPesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtPesquisar.getText().equals(placeholder)) {
+                    txtPesquisar.setText("");
+                    txtPesquisar.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txtPesquisar.getText().isEmpty()) {
+                    txtPesquisar.setText(placeholder);
+                    txtPesquisar.setForeground(Color.GRAY);
+                }
+            }
+        });
+
         btnPesquisar = new JButton("Pesquisar");
 
         JPanel panelPesquisa = new JPanel(new BorderLayout());
+        panelPesquisa.setBorder(BorderFactory.createEmptyBorder(16, 32, 0, 32));
         panelPesquisa.add(txtPesquisar, BorderLayout.CENTER);
-        panelPesquisa.add(btnPesquisar, BorderLayout.EAST);
 
         add(panelPesquisa, BorderLayout.NORTH);
 
@@ -68,14 +105,14 @@ public class TelaPrincipal extends JFrame {
 
         tabelaContatos = new JTable(modelContatos);
         tabelaContatos.setDefaultEditor(Object.class, null);
-        tabelaContatos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
+        tabelaContatos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
                                                            Object value, boolean isSelected, boolean hasFocus, int row, int col) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
                 int modelRow = table.convertRowIndexToModel(row);
 
-                Color color = (Color)table.getModel().getValueAt(modelRow, 4);
+                Color color = (Color) table.getModel().getValueAt(modelRow, 4);
                 // original coefficients
                 final double cr = 0.241;
                 final double cg = 0.691;
@@ -128,13 +165,20 @@ public class TelaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int linhaSelecionada = tabelaContatos.getSelectedRow();
                 if (linhaSelecionada != -1) {
-                    int idContato = (int) tabelaContatos.getValueAt(linhaSelecionada, 0);
-                    contatoService.removerContato(idContato);
+                    // Exibir uma caixa de diálogo de confirmação
+                    int confirmation = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover o contato?", "Confirmação de Remoção", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        int idContato = (int) tabelaContatos.getValueAt(linhaSelecionada, 0);
+                        contatoService.removerContato(idContato);
+                    }
                     try {
                         atualizarTabelaContatos();
                     } catch (ServiceException ex) {
                         Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nenhum contato selecionado. Selecione um contato da lista.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
