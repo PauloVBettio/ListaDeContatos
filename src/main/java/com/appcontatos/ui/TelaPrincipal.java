@@ -109,8 +109,8 @@ public class TelaPrincipal extends JFrame {
         setJMenuBar(menuBar);
 
         // Define e adiciona dois menus drop down na barra de menus
-        JMenu fileMenu = new JMenu("File");
-        JMenu editMenu = new JMenu("Edit");
+        JMenu fileMenu = new JMenu("Arquivo");
+        JMenu editMenu = new JMenu("Editar");
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
 
