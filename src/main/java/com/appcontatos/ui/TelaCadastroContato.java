@@ -21,6 +21,9 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Esta classe representa a tela de cadastro de contato.
+ */
 public class TelaCadastroContato extends JFrame {
     private ContatoService contatoService;
     private TelaPrincipal telaPrincipal;
@@ -32,6 +35,12 @@ public class TelaCadastroContato extends JFrame {
     private JComboBox<ComboColor> cbColor;
     private MaskFormatter telefoneMaskFormatter;
 
+    /**
+     * Construtor da classe TelaCadastroContato para adicionar um novo contato.
+     *
+     * @param contatoService o serviço de gerenciamento de contatos
+     * @param telaPrincipal  a tela principal do aplicativo
+     */
     public TelaCadastroContato(ContatoService contatoService, TelaPrincipal telaPrincipal) {
         this.contatoService = contatoService;
         this.telaPrincipal = telaPrincipal;
@@ -46,6 +55,13 @@ public class TelaCadastroContato extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Construtor da classe TelaCadastroContato para editar um contato existente.
+     *
+     * @param contatoService o serviço de gerenciamento de contatos
+     * @param telaPrincipal  a tela principal do aplicativo
+     * @param contato        o contato a ser editado
+     */
     public TelaCadastroContato(ContatoService contatoService, TelaPrincipal telaPrincipal, Contato contato) {
         this.contatoService = contatoService;
         this.telaPrincipal = telaPrincipal;
@@ -68,6 +84,9 @@ public class TelaCadastroContato extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Inicializa e configura os componentes da interface gráfica.
+     */
     private void initComponents() {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(16,16,16,16));
@@ -122,6 +141,12 @@ public class TelaCadastroContato extends JFrame {
         add(panel);
     }
 
+    /**
+     * Limita o tamanho máximo de um campo de texto.
+     *
+     * @param textField o campo de texto a ser limitado
+     * @param maxLength o tamanho máximo permitido para o campo de texto
+     */
     private static void limitarTamanhoCampo(JTextComponent textField, int maxLength) {
         PlainDocument doc = (PlainDocument) textField.getDocument();
         doc.setDocumentFilter(new DocumentFilter() {
@@ -137,6 +162,11 @@ public class TelaCadastroContato extends JFrame {
         });
     }
 
+    /**
+     * Configura o botão de salvar para adicionar ou atualizar um contato.
+     *
+     * @param btnSalvar o botão de salvar
+     */
     private void setupSave(JButton btnSalvar) {
         btnSalvar.addActionListener(new ActionListener() {
             @Override

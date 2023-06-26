@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Esta classe representa a tela principal da aplicação.
+ */
 public class TelaPrincipal extends JFrame {
     private ContatoService contatoService;
     private JTable tabelaContatos;
@@ -23,6 +26,12 @@ public class TelaPrincipal extends JFrame {
     private JButton btnPesquisar;
     private DefaultTableModel modelContatos;
 
+    /**
+     * Construtor da classe TelaPrincipal.
+     *
+     * @param contatoService o serviço de gerenciamento de contatos
+     * @throws ServiceException em caso de erro no serviço
+     */
     public TelaPrincipal(ContatoService contatoService) throws ServiceException {
         this.contatoService = contatoService;
 
@@ -32,16 +41,14 @@ public class TelaPrincipal extends JFrame {
         setLocationRelativeTo(null);
 
         initComponents();
-        initMenu();
         atualizarTabelaContatos();
 
         setVisible(true);
     }
 
-    private void initMenu() {
-
-    }
-
+    /**
+     * Inicializa e configura os componentes da interface gráfica.
+     */
     private void initComponents() {
         // Painel principal
         JPanel panelPrincipal = new JPanel();
@@ -225,6 +232,9 @@ public class TelaPrincipal extends JFrame {
         add(panelPrincipal);
     }
 
+    /**
+     * Filtra a tabela de contatos com base no texto de pesquisa.
+     */
     private void filtrarTabela() {
         String textoPesquisa = txtPesquisar.getText().trim().toLowerCase();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelContatos);
@@ -241,11 +251,19 @@ public class TelaPrincipal extends JFrame {
         tabelaContatos.revalidate();
     }
 
+    /**
+     * Abre a tela de cadastro de contato.
+     */
     private void abrirTelaCadastroContato() {
         TelaCadastroContato telaCadastro = new TelaCadastroContato(contatoService, this);
         telaCadastro.setVisible(true);
     }
 
+    /**
+     * Abre a tela de alteração de contato.
+     *
+     * @param idContato o ID do contato a ser alterado
+     */
     private void abrirTelaAlteracaoContato(int idContato) {
         Contato contato = contatoService.getContatoById(idContato);
         if (contato != null) {
@@ -254,6 +272,11 @@ public class TelaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Atualiza a tabela de contatos com os dados mais recentes.
+     *
+     * @throws ServiceException em caso de erro no serviço
+     */
     public void atualizarTabelaContatos() throws ServiceException {
         List<Contato> contatos = contatoService.listarContatos();
 

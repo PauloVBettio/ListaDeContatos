@@ -12,9 +12,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * A classe ContatoDAO é responsável por lidar com as operações de acesso aos dados para os objetos Contato.
+ * Ela fornece métodos para realizar operações CRUD (Create, Read, Update, Delete) no banco de dados.
+ */
 public class ContatoDAO {
     private Connection connection;
 
+    /**
+     * Constrói um objeto ContatoDAO e inicializa a conexão com o banco de dados.
+     */
     public ContatoDAO() {
         try {
             // Caminho para o diretório contatos no diretório atual do projeto
@@ -56,6 +63,12 @@ public class ContatoDAO {
         }
     }
 
+    /**
+     * Retorna um objeto Contato com base no seu ID.
+     *
+     * @param id O ID do contato a ser retornado.
+     * @return O objeto Contato correspondente ao ID fornecido, ou null se não for encontrado.
+     */
     public Contato getContatoById(int id) {
         String sql = "SELECT * FROM contatos WHERE id = ?";
 
@@ -81,6 +94,11 @@ public class ContatoDAO {
         return null;
     }
 
+    /**
+     * Atualiza as informações de um contato existente no banco de dados.
+     *
+     * @param contato O objeto Contato contendo as informações atualizadas.
+     */
     public void atualizarContato(Contato contato) {
         String query = "UPDATE contatos SET nome = ?, telefone = ?, email = ?, favorite = ?, color = ? WHERE id = ?";
 
@@ -98,6 +116,11 @@ public class ContatoDAO {
         }
     }
 
+    /**
+     * Adiciona um novo contato ao banco de dados.
+     *
+     * @param contato O objeto Contato a ser adicionado.
+     */
     public void adicionarContato(Contato contato) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -113,6 +136,11 @@ public class ContatoDAO {
         }
     }
 
+    /**
+     * Remove um contato do banco de dados com base no seu ID.
+     *
+     * @param id O ID do contato a ser removido.
+     */
     public void removerContato(int id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -124,6 +152,11 @@ public class ContatoDAO {
         }
     }
 
+    /**
+     * Retorna uma lista de todos os contatos no banco de dados, ordenados por favoritos e nome.
+     *
+     * @return Uma lista de objetos Contato representando todos os contatos no banco de dados.
+     */
     public List<Contato> listarContatos() {
         List<Contato> contatos = new ArrayList<>();
 
@@ -149,6 +182,9 @@ public class ContatoDAO {
         return contatos;
     }
 
+    /**
+     * Fecha a conexão com o banco de dados.
+     */
     public void fecharConexao() {
         try {
             connection.close();

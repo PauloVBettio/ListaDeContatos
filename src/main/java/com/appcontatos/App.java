@@ -8,6 +8,9 @@ import com.appcontatos.ui.TelaPrincipal;
 
 import javax.swing.*;
 
+/**
+ * A classe App é a classe principal que inicia o aplicativo de contatos.
+ */
 public class App {
     public static void main(String[] args) throws ServiceException, UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         FlatDarkLaf.setup();
